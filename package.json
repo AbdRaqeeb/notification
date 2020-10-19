@@ -1,0 +1,35 @@
+{
+  "name": "notification-service-api",
+  "version": "1.0.0",
+  "description": "Notification service API for pushing email notifications.",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf build && mkdir build",
+    "start": "npm run build && node ./build/index.js",
+    "build-server": "babel -d ./build ./server -s",
+    "build": "npm run clean && npm run build-server",
+    "dev": "nodemon --exec babel-node server/index.js"
+  },
+  "keywords": [
+    "amqplib",
+    "email",
+    "nodemailer"
+  ],
+  "author": "Ajao AbdRaqeeb",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.6.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "joi": "^17.2.1",
+    "nodemailer": "^6.4.11",
+    "nodemailer-smtp-transport": "^2.7.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
+    "nodemon": "^2.0.4"
+  }
+}
