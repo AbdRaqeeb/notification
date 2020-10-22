@@ -41,13 +41,13 @@ const verifySubscriber = async (next) => {
 
             const qm = JSON.parse(msg.content.toString());
 
-            const {user_id, email} = qm;
+            const {token, email} = qm;
 
             const mailOption = {
                 from: process.env.USER,
                 to: `${email}`,
-                subject: `${subject}`,
-                text: `Click here to verify your account: `,
+                subject: 'Verify Email',
+                text: `Click here to verify your account: https://rent-ng.herokuapp.com/api/v1/user/verify/${token}`,
                 html: `<html>
                 <head>
                   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -765,7 +765,7 @@ const verifySubscriber = async (next) => {
                                                   >
                                                     <a
                                                       class="buttonText"
-                                                      href="#"
+                                                      href="https://rent-ng.herokuapp.com/api/v1/user/verify/${token}"
                                                       target="_blank"
                                                       style="
                                                         color: #4a90e2;

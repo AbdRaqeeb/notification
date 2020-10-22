@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import amqplib from'amqplib';
+import amqplib from 'amqplib';
 import nodemailer from 'nodemailer';
 import smtpTransport from 'nodemailer-smtp-transport';
 
@@ -15,10 +15,10 @@ const transport = nodemailer.createTransport(smtpTransport({
 }));
 
 
-const tourSubscriber = async (next) => {
+const passwordSubscriber = async (next) => {
     try {
         // Name of queue
-        const q = 'tour';
+        const q = 'password';
 
         // connect to amqplib server
         const conn = await amqplib.connect(process.env.amqplib);
@@ -27,7 +27,9 @@ const tourSubscriber = async (next) => {
         const ch = await conn.createChannel();
 
         // Ensure queue for messages and Ensure that the queue is not deleted when server restarts
-        await ch.assertQueue(q, {durable: true});
+        await ch.assertQueue(q, {
+            durable: true
+        });
 
         // Only request 1 unacked message from queue
         // This value indicates how many messages we want to process in parallel
@@ -41,23 +43,16 @@ const tourSubscriber = async (next) => {
 
             const qm = JSON.parse(msg.content.toString());
 
-            const {user_name, customer_name, email, title, charges, date, time, phone, reference} = qm;
+            const {
+                token,
+                email
+            } = qm;
 
             const mailOption = {
                 from: process.env.USER,
                 to: `${email}`,
-                subject: 'Tour Request',
-                text: `Hi, ${user_name}, 
-                    Tour: 
-                    Customer: ${customer_name}, 
-                    Charge: ${charges},
-                    Date: ${date}
-                    Time: ${time}
-                    Phone: ${phone}
-                    Property:
-                    Title: ${title}
-                    Ref: ${reference}
-                    `,
+                subject: 'Password Reset',
+                text: `Your password reset link is https://rent-ng.herokuapp.com/api/v1/user/reset-password/${token}`,
                 html: `<html lang="en">
                 <head>
                   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -742,20 +737,13 @@ const tourSubscriber = async (next) => {
                                                   text-align: left;
                                                 "
                                               >
-                                                Hi, ${user_name}
                                               </h3>
               
                                               <!-- <h2 class="h2">Heading 2</h2>
                                                                               <h3 class="h3">Heading 3</h3>
                                                                               <h4 class="h4">Heading 4</h4> -->
                                               <p style="text-align: justify;">
-                                               You have a new tour booking with your property: ${title} with reference ${reference}. <br/>
-                                               Requester: ${customer_name} <br/>
-                                               Charges: ${charges} <br/>
-                                               Date: ${date} <br />
-                                               Time: ${time} <br />
-                                               Phone: ${phone} <br />
-                                               Kindly accept or reject the tour.
+                                              Your password reset link is https://rent-ng.herokuapp.com/api/v1/user/reset-password/${token}
                                               </p
                                             </div>
                                           </td>
@@ -927,4 +915,4 @@ const tourSubscriber = async (next) => {
     }
 };
 
-export default tourSubscriber;
+export default passwordSubscriber;

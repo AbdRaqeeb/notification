@@ -1,8 +1,7 @@
 import { Router } from 'express';
-import VerifyController from "../controller/VerifyController";
-
+import PasswordController from "../controllers/PasswordController";
 const router = Router();
-const { addEntry } = VerifyController;
+const { addEntry } = PasswordController;
 
 router.post('/', addEntry);
 

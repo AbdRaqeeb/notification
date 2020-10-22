@@ -46,7 +46,7 @@ const inquirySubscriber = async (next) => {
             const mailOption = {
                 from: process.env.USER,
                 to: `${email}`,
-                subject: `${subject}`,
+                subject: 'Inquiry',
                 text: ` Hi ${user_name}, you have a new inquiry.
                     Property:
                     title: ${title}

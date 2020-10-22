@@ -2,7 +2,7 @@ import 'dotenv/config';
 import amqplib from 'amqplib';
 import { validateVerify } from "../../../middleware/validate";
 
-class ReceiverController {
+class PasswordController {
     /***
      * @static
      * @desc Add message to queue
@@ -18,7 +18,7 @@ class ReceiverController {
 
         try {
             // create queue
-            const q = 'verify';
+            const q = 'password';
 
             // connect to rabbitmq server
             const conn = await amqplib.connect(process.env.amqplib);
@@ -46,4 +46,4 @@ class ReceiverController {
     }
 }
 
-export default ReceiverController;
+export default PasswordController;
